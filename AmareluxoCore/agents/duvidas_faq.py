@@ -9,25 +9,22 @@ class DuvidasFAQAgent:
         self.model = OpenAIModel(model_name="gpt-4", temperature=0).get_client()
 
     @tool
-    def clima(city: str) -> str:
+    def buscar_faq(pergunta: str) -> str:
+        """
+        Busca a resposta para uma pergunta no banco de dados de FAQ do e-commerce Amareluxo.
+        Use esta ferramenta para responder perguntas sobre pedidos, prazos de entrega,
+        rastreamento, trocas, devoluções e métodos de pagamento.
+        O input deve ser a pergunta do usuário.
+        """
         response = requests.post(
-            "http://localhost:9000/clima",
-            json={"cidade": city},
+            "http://localhost:9000/buscar_faq",
+            json={"pergunta_usuario": pergunta},
             timeout=5
         )
-        return response.json()["previsao"]
-
-    @tool
-    def horario(city: str) -> str:
-        response = requests.post(
-            "http://localhost:9000/horario",
-            json={"cidade": city},
-            timeout=5
-        )
-        return response.json()["hora"]
+        return response.json()
 
     def set_tools(self):
-        tools = [self.clima(), self.horario()]
+        tools = [self.buscar_faq]
         return tools
     
     def create_agent(self):
@@ -50,7 +47,7 @@ if __name__ == "__main__":
     result = agent.invoke({
         "messages": [
             HumanMessage(
-                content="Qual a previsão do tempo e a hora local para Curitiba?")
+                content="Quanto tempo demora para chegar meus pedidos?")
         ]
     })
     print(result['messages'][-1].content)
