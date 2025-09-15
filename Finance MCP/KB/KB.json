@@ -1,0 +1,62 @@
+[
+  {
+    "pergunta": "Qual o prazo de entrega dos pedidos?",
+    "resposta": "O prazo de entrega varia de 3 a 7 dias úteis, dependendo da sua localização. Você pode verificar o prazo exato no carrinho de compras antes de finalizar o pedido."
+  },
+  {
+    "pergunta": "Como posso rastrear meu pedido?",
+    "resposta": "Após a confirmação do envio, você receberá um e-mail com o código de rastreamento. Você pode usar esse código no site da transportadora ou na nossa página de 'Rastrear Pedido'."
+  },
+  {
+    "pergunta": "Como faço para solicitar uma troca ou devolução?",
+    "resposta": "Você pode solicitar uma troca ou devolução em até 30 dias após o recebimento do produto. Acesse a seção 'Trocas e Devoluções' em nosso site para mais informações e para iniciar o processo."
+  },
+  {
+    "pergunta": "Quais são as opções de pagamento?",
+    "resposta": "Aceitamos pagamentos via cartão de crédito (parcelamento em até 6x sem juros), Pix e boleto bancário. O pagamento via boleto pode levar até 2 dias úteis para ser compensado."
+  },
+  {
+    "pergunta": "Os produtos da Amareluxo são autênticos?",
+    "resposta": "Sim, todos os produtos da Amareluxo são 100% autênticos e de alta qualidade. Trabalhamos apenas com fornecedores e marcas renomadas para garantir a satisfação dos nossos clientes."
+  },
+  {
+    "pergunta": "Vocês têm uma loja física?",
+    "resposta": "No momento, a Amareluxo opera exclusivamente como e-commerce. Isso nos permite oferecer uma maior variedade de produtos e preços mais competitivos."
+  },
+  {
+    "pergunta": "Como sei o meu tamanho correto?",
+    "resposta": "Em cada página de produto, temos uma 'Tabela de Medidas' detalhada. Recomendamos que você compare suas medidas com as da tabela para encontrar o ajuste perfeito."
+  },
+  {
+    "pergunta": "É possível cancelar um pedido?",
+    "resposta": "O cancelamento é possível apenas se o pedido ainda não tiver sido enviado. Entre em contato com nossa equipe de suporte o mais rápido possível para verificar a possibilidade de cancelamento."
+  },
+  {
+    "pergunta": "Como usar um cupom de desconto?",
+    "resposta": "Na página do carrinho, antes de finalizar a compra, há um campo chamado 'Adicionar Cupom de Desconto'. Insira o código nesse campo e clique em 'Aplicar'."
+  },
+  {
+    "pergunta": "Vocês entregam para fora do Brasil?",
+    "resposta": "No momento, fazemos entregas apenas em território brasileiro. Estamos trabalhando para expandir nossas operações no futuro."
+  },
+  {
+    "pergunta": "O que fazer se o meu pedido estiver atrasado?",
+    "resposta": "Verifique o status do rastreamento para saber o motivo do atraso. Se não houver atualização ou se o prazo de entrega excedeu o limite, por favor, entre em contato com nosso suporte para que possamos ajudar."
+  },
+  {
+    "pergunta": "Há um valor mínimo para frete grátis?",
+    "resposta": "Sim, oferecemos frete grátis para compras acima de R$ 300,00 para as regiões Sul e Sudeste. Para outras regiões, os valores podem variar. Verifique as condições no carrinho de compras."
+  },
+  {
+    "pergunta": "Os produtos podem ser lavados na máquina?",
+    "resposta": "As instruções de lavagem variam para cada peça. Sempre verifique a etiqueta do produto para seguir as recomendações do fabricante e garantir a durabilidade da sua roupa."
+  },
+  {
+    "pergunta": "O que faço se receber um produto com defeito?",
+    "resposta": "Entre em contato com nossa equipe de suporte imediatamente, em até 7 dias após o recebimento. Envie fotos ou vídeos do defeito para agilizar a análise e a solução do problema."
+  },
+  {
+    "pergunta": "Como posso entrar em contato com o suporte da Amareluxo?",
+    "resposta": "Você pode nos contatar via chat online em nosso site ou através do e-mail suporte@amareluxo.com.br. Nosso horário de atendimento é de segunda a sexta, das 9h às 18h."
+  }
+]
