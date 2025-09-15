@@ -1,0 +1,27 @@
+
+services:
+  api:
+    build:
+      context: ./ToolsMCP
+      dockerfile: Dockerfile
+    container_name: amareluxo_api
+    command: uvicorn server:app --host 0.0.0.0 --port 9000
+    volumes:
+      - ./ToolsMCP:/app
+    ports:
+      - "9000:9000"
+    restart: always
+
+  app:
+    build:
+      context: ./AmareluxoCore
+      dockerfile: Dockerfile
+    container_name: amareluxo_app
+    command: streamlit run main.py --server.port 8501 --server.address 0.0.0.0
+    volumes:
+      - ./AmareluxoCore:/app
+    ports:
+      - "8501:8501"
+    restart: always
+    depends_on:
+      - api

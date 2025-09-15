@@ -25,7 +25,7 @@ class BuscaFAQ:
 
     def load_model(self):
         print("Carregando o modelo de embeddings do Hugging Face...")
-        return SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2', device='cuda' if torch.cuda.is_available() else 'cpu')
+        return SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2', device='cuda' if torch.cuda.is_available() else 'cpu')
 
     def create_embeddings(self) -> tuple:
         if not self.model:
