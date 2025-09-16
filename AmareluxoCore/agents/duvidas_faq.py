@@ -1,9 +1,8 @@
 import requests
 from langchain_core.tools import tool
-from langchain_core.messages import HumanMessage
-from langgraph.prebuilt import create_react_agent
 from models.openai import OpenAIModel
 from utils.create_agent import AgentCreator
+from AmareluxoCore.models.models import Message
 
 PROMPT_DUVIDAS_FAQ = """Você é um agente de suporte especializado no e-commerce de roupas Amareluxo.
     Seu principal objetivo é ajudar os clientes a encontrar informações sobre seus pedidos, produtos e políticas da loja. 
@@ -19,7 +18,7 @@ class DuvidasFAQAgent:
         self.create_agent = AgentCreator(self.model, self.set_tools(), self.prompt).create_agent
 
     @tool
-    def buscar_faq(pergunta: str) -> str:
+    def buscar_faq(mensagem: Message) -> str:
         """
         Busca a resposta para uma pergunta no banco de dados de FAQ do e-commerce Amareluxo.
         Use esta ferramenta para responder perguntas sobre pedidos, prazos de entrega,
@@ -28,7 +27,7 @@ class DuvidasFAQAgent:
         """
         response = requests.post(
             "http://localhost:9000/buscar_faq",
-            json={"pergunta_usuario": pergunta},
+            json={"pergunta_usuario": mensagem},
             timeout=5
         )
         return response.json()
@@ -37,13 +36,3 @@ class DuvidasFAQAgent:
         tools = [self.buscar_faq]
         return tools
     
-
-if __name__ == "__main__":
-    agent = DuvidasFAQAgent().create_agent()
-    result = agent.invoke({
-        "messages": [
-            HumanMessage(
-                content="Quanto tempo demora para chegar meus pedidos?")
-        ]
-    })
-    print(result['messages'][-1].content)

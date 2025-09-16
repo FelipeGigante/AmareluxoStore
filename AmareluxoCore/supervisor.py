@@ -1,10 +1,7 @@
-from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.messages import HumanMessage
 from langgraph.graph import StateGraph, END
-from typing import TypedDict, Annotated, List
 from agents.duvidas_faq import DuvidasFAQAgent
-
-class AgentState(TypedDict):
-    messages: Annotated[List[BaseMessage], lambda x, y: x + y]
+from states import SupervisorState
 
 class SupervisorAgent:
 
@@ -18,7 +15,7 @@ class SupervisorAgent:
         """
         Cria e compila o grafo do supervisor com os nós e transições.
         """
-        workflow = StateGraph(AgentState)
+        workflow = StateGraph(SupervisorState)
 
         # Nós do grafo
         workflow.add_node("supervisor", self._supervisor_node)
@@ -38,7 +35,7 @@ class SupervisorAgent:
         workflow.add_edge("duvidas_faq_agent", END)
         return workflow.compile()
 
-    def _route_agent(self, state: AgentState) -> str:
+    def _route_agent(self, state: SupervisorState) -> str:
 
         pergunta = state["messages"][-1].content.lower()
         
@@ -48,7 +45,7 @@ class SupervisorAgent:
     def _supervisor_node(self, state):
         return {"next": self._route_agent(state)}
 
-    def _call_duvidas_faq(self, state: AgentState):
+    def _call_duvidas_faq(self, state: SupervisorState):
         agent = self.duvidas_faq_agent.create_agent()
         return agent.invoke({
             "messages": [HumanMessage(content=state["messages"][-1].content)]

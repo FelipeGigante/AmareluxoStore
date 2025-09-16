@@ -12,5 +12,4 @@ class AgentCreator:
             tools=self.tools,
             prompt=self.prompt
         )
-
         return agent

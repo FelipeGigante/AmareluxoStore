@@ -1,44 +1,14 @@
-import json
-from langchain.tools import tool
-from fastapi import FastAPI
-from sentence_transformers import SentenceTransformer, util
-import torch
-
-app = FastAPI()
+from sentence_transformers import util
+from services.busca_faq_service import BuscaFAQService
 
 class BuscaFAQ:
     def __init__(self):
-        self.faq_data = self.carregar_faq()
-        self.model = self.load_model()
+        self.busca_service = BuscaFAQService()
+        self.faq_data = self.busca_service.carregar_faq()
         
         # Carrega os embeddings e perguntas apenas uma vez
-        self.faq_perguntas, self.faq_embeddings = self.create_embeddings()
-        self.faq_map_once = self.faq_map()
-
-    def carregar_faq(self):
-        try:
-            with open('KB/KB.json', 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print("Erro: O arquivo KB/KB.json não foi encontrado.")
-            return []
-
-    def load_model(self):
-        print("Carregando o modelo de embeddings do Hugging Face...")
-        return SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2', device='cuda' if torch.cuda.is_available() else 'cpu')
-
-    def create_embeddings(self) -> tuple:
-        if not self.model:
-            raise ValueError("Modelo não carregado.")
-        
-        print("Criando embeddings para as perguntas do FAQ...")
-        perguntas = [item['pergunta'] for item in self.faq_data]
-        embeddings = self.model.encode(perguntas, convert_to_tensor=True)
-        
-        return perguntas, embeddings
-
-    def faq_map(self) -> dict:
-        return {item['pergunta']: item for item in self.faq_data}
+        self.faq_perguntas, self.faq_embeddings = self.busca_service.create_embeddings()
+        self.faq_map_once = self.busca_service.faq_map()
 
     def buscar_faq(self, pergunta_usuario: str) -> str:
         """
