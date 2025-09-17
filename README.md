@@ -33,8 +33,8 @@ A Amareluxo é uma loja especializada em moda e acessórios, oferecendo produtos
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/Amareluxo.git
-cd StudyBuddy
+git clone https://github.com/FelipeGigante/AmareluxoStore.git
+cd AmareluxoStore
 ```
 
 2. Crie o arquivo `.env` na raiz do projeto:
