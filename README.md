@@ -1,7 +1,7 @@
 <h1 align="center"> StudyBuddy - Sistema de Atendimento Inteligente </h1>
 
 <p align="center">
-  <img src="https://ibb.co/kVtnZWLN" alt="StudyBuddy Banner" width="100%">
+  <img src="https://i.ibb.co/ymrT2bzH/amareluxo.png" alt="amareluxo" border="0" width="30%" height="30%">
 </p>
 
 ## Sobre o Projeto
