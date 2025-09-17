@@ -1,4 +1,4 @@
-<h1 align="center"> StudyBuddy - Sistema de Atendimento Inteligente </h1>
+<h1 align="center"> Amareluxo - Sistema de Atendimento Inteligente </h1>
 
 <p align="center">
   <img src="https://i.ibb.co/ymrT2bzH/amareluxo.png" alt="amareluxo" border="0" width="30%" height="30%">
