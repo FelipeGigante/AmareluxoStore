@@ -1,13 +1,15 @@
 import streamlit as st
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from supervisor import SupervisorAgent
+
+K_MESSAGES = 10
 
 @st.cache_resource
 def get_supervisor():
+    """Inicializa e armazena em cache a instância do supervisor."""
     return SupervisorAgent()
 
-supervisor_manager = get_supervisor()
-supervisor_agent = supervisor_manager.supervisor_agent
+supervisor_agent = get_supervisor().supervisor_agent
 
 st.title("Atendimento Amareluxo")
 
@@ -25,9 +27,18 @@ if prompt := st.chat_input("Sua pergunta:"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        with st.spinner("Buscando a resposta..."):
+        with st.spinner("Pensando..."):
             try:
-                initial_state = {"messages": [HumanMessage(content=prompt)]}
+                recent_history = st.session_state.messages[-K_MESSAGES:]
+                
+                langchain_messages = []
+                for message in recent_history:
+                    if message["role"] == "user":
+                        langchain_messages.append(HumanMessage(content=message["content"]))
+                    else:
+                        langchain_messages.append(AIMessage(content=message["content"]))
+
+                initial_state = {"messages": langchain_messages}
                 
                 final_state = supervisor_agent.invoke(initial_state)
                 
@@ -37,9 +48,6 @@ if prompt := st.chat_input("Sua pergunta:"):
                 st.session_state.messages.append({"role": "assistant", "content": resposta_final})
 
             except Exception as e:
-                error_message = f"Erro ao processar a solicitação: {e}"
+                error_message = f"Erro ao processar a solicitação: '{e}'"
                 st.error(error_message)
-                st.info("Por favor, tente novamente mais tarde ou reformule a pergunta.")
                 st.session_state.messages.append({"role": "assistant", "content": error_message})
-
-st.markdown("---")

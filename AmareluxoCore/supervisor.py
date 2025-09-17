@@ -9,8 +9,13 @@ from models.openai_model import OpenAIModel
 from states import AgentState
 
 PROMPT_ROUTER_TEMPLATE = """Você é um supervisor especialista em rotear a pergunta de um cliente para o agente correto.
-Analise a pergunta do usuário e as descrições dos agentes para decidir qual agente é o mais adequado.
+Analise a pergunta do usuário e as descrições dos agentes abaixo para decidir qual agente é o mais adequado.
 Se nenhuma das opções for apropriada, escolha 'END'.
+
+Agentes disponíveis:
+- 'duvidas_faq_agent': Ideal para responder a perguntas gerais'.
+- 'rastreio_pedido_agent': Usado especificamente para rastrear um pedido
+- 'envio_email_agent': Usado para criar e enviar um ticket de suporte por e-mail quando o cliente tem um problema complexo que não pode ser resolvido pelas outras ferramentas. Exemplo: 'Meu cupom de desconto não está funcionando', 'Recebi o produto errado'.
 
 Pergunta do usuário:
 {pergunta}

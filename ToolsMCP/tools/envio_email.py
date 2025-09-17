@@ -2,29 +2,26 @@ import smtplib
 from dotenv import load_dotenv
 import os
 from services.envio_email_service import EnvioEmailService
-from models.models import EnvioEmail
+from models.models import EnvioRequest
 
 load_dotenv()
 
 class EnvioEmail:
     def __init__(self):
         self.remetente = os.getenv("REMETENTE")
-        self.destinatario = os.getenv("DESTINATARIO")
-        self.assunto = "E-mail Automático - Atendimento MCP"
-        self.mensagem = "O suporte humano entrará em contato assim que obtivermos uma resposta mais precisa sobre o seu pedido.!"
         self.password = os.getenv("GOOGLE_PASSWORD")
 
-    def enviar_email(self):
+    def enviar_email(self, request: EnvioRequest):
         
-        request_email = EnvioEmail(
+        request_email = EnvioRequest(
             remetente=self.remetente,
-            destinatario=self.destinatario,
-            assunto=self.assunto,
+            destinatario=request.destinatario,
+            assunto=request.assunto,
             mensagem=self.mensagem
         )
 
         envio_email = EnvioEmailService(request_email)
-        mensagem = envio_email.enviar(self.mensagem)
+        mensagem = envio_email.enviar(request.mensagem_html)
 
         try:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -33,7 +30,3 @@ class EnvioEmail:
                 print("Email enviado com sucesso!")
         except Exception as e:
             raise ValueError(f"Erro ao enviar email: {e}")
-
-if __name__ == "__main__":
-    email = EnvioEmail()
-    email.enviar_email()
