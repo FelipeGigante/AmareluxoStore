@@ -5,6 +5,7 @@ import torch
 class BuscaFAQService:
     def __init__(self):
         self.model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2', device='cuda' if torch.cuda.is_available() else 'cpu')
+        self.faq_data = self.carregar_faq()
 
     def carregar_faq(self):
         try:

@@ -1,11 +1,13 @@
 from sentence_transformers import util
+from pydantic import BaseModel
 from services.busca_faq_service import BuscaFAQService
 
 class BuscaFAQ:
     def __init__(self):
         self.busca_service = BuscaFAQService()
-        self.faq_data = self.busca_service.carregar_faq()
         
+        self.model = self.busca_service.model
+
         # Carrega os embeddings e perguntas apenas uma vez
         self.faq_perguntas, self.faq_embeddings = self.busca_service.create_embeddings()
         self.faq_map_once = self.busca_service.faq_map()
