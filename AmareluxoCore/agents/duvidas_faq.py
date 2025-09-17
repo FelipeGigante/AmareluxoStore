@@ -1,18 +1,18 @@
 import requests
 from langchain_core.tools import tool
-from models.openai import OpenAIModel
+from models.openai_model import OpenAIModel
 from utils.create_agent import AgentCreator
 
-PROMPT_DUVIDAS_FAQ = """Você é um agente de suporte especializado no e-commerce de roupas Amareluxo.Seu principal objetivo é ajudar os clientes a encontrar informações s
-        obre seus pedidos, produtos e políticas da loja. 
+PROMPT_DUVIDAS_FAQ = """Você é um agente de suporte especializado no e-commerce de roupas Amareluxo.
+Seu principal objetivo é ajudar os clientes a encontrar informações s
+obre seus pedidos, produtos e políticas da loja. 
 
-        A pergunta do cliente é: {pergunta}
+A pergunta do cliente é: {pergunta}
 
-        Utilize exclusivamente a ferramenta `buscar_faq` para encontrar as respostas. 
-        Se a pergunta não puder ser respondida com as informações do FAQ, informe de maneira cordial que a resposta 
-        não está disponível no momento e sugira entrar em contato com o suporte humano.
-        """
-
+Utilize exclusivamente a ferramenta `buscar_faq` para encontrar as respostas. 
+Se a pergunta não puder ser respondida com as informações do FAQ, informe de maneira cordial que a resposta 
+não está disponível no momento e sugira entrar em contato com o suporte humano.
+"""
 
 class DuvidasFAQAgent:
     def __init__(self):
@@ -28,13 +28,16 @@ class DuvidasFAQAgent:
         rastreamento, trocas, devoluções e métodos de pagamento.
         O input deve ser a pergunta do usuário.
         """
-        response = requests.post(
-            "http://localhost:9000/buscar_faq",
-            json={"pergunta_usuario": pergunta},
-            timeout=5
-        )
-        data = response.json()
-        return data.get("resposta", "Não encontrei essa informação no FAQ.")
+        try:
+            response = requests.post(
+                "http://localhost:9000/buscar_faq",
+                json={"pergunta_usuario": pergunta},
+                timeout=5
+            )
+            return response.json().get("resposta", "Não foi possível encontrar uma resposta no FAQ.")
+        except Exception as e:
+            return f"Erro ao acessar o FAQ. {e}"
+        
 
     def set_tools(self):
         tools = [self.buscar_faq]

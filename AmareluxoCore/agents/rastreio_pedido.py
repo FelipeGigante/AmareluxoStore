@@ -1,6 +1,6 @@
 import requests
 from langchain_core.tools import tool
-from models.openai import OpenAIModel
+from models.openai_model import OpenAIModel
 from utils.create_agent import AgentCreator
 
 PROMPT_RASTREIO_PEDIDO = """Você é um agente de logística da Amareluxo, especializado em fornecer o status de rastreamento de pedidos. 

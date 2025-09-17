@@ -12,6 +12,8 @@ class RastreioPedido:
         try:
             extractor = ExtractCode(pergunta_usuario)
             codigo_rastreio = extractor.extrair_codigo_rastreio()
+            print(f"Código de rastreio extraído: {codigo_rastreio}")
+            
             status_rastreio = self.rastreio_service.rastrear(codigo_rastreio)
             return status_rastreio
             

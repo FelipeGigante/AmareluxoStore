@@ -1,15 +1,12 @@
 import requests
 from langchain_core.tools import tool
-from models.openai import OpenAIModel
+from models.openai_model import OpenAIModel
 from utils.create_agent import AgentCreator
 
 PROMPT_ENVIO_EMAIL = """Você é um agente de comunicação da Amareluxo, especializado em enviar e-mails de notificação e suporte aos clientes. 
 Sua única responsabilidade é usar a ferramenta de envio de e-mails para enviar mensagens com base em solicitações específicas. 
 
 A solicitação do cliente é: {pergunta}
-
-Sempre identifique o e-mail do cliente e a mensagem a ser enviada, e use a ferramenta de envio. 
-Não responda diretamente ao cliente.
 """
 
 

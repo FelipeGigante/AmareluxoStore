@@ -1,6 +1,5 @@
 import streamlit as st
 from langchain_core.messages import HumanMessage
-
 from supervisor import SupervisorAgent
 
 @st.cache_resource
@@ -29,16 +28,10 @@ if prompt := st.chat_input("Sua pergunta:"):
         with st.spinner("Buscando a resposta..."):
             try:
                 initial_state = {"messages": [HumanMessage(content=prompt)]}
-                final_state = list(supervisor_agent.stream(initial_state, {"recursion_limit": 10}))[-1]
                 
-                if "messages" in final_state:
-                    # Caso 2: mensagens na raiz
-                    resposta_final = final_state["messages"][-1].content
-                else:
-                    # Caso 1: mensagens dentro de um agente (ex: router, explainer...)
-                    primeira_chave = list(final_state.keys())[0]
-                    resposta_final = final_state[primeira_chave]["messages"][-1].content
+                final_state = supervisor_agent.invoke(initial_state)
                 
+                resposta_final = final_state["messages"][-1].content
                 
                 st.markdown(resposta_final)
                 st.session_state.messages.append({"role": "assistant", "content": resposta_final})
@@ -50,4 +43,3 @@ if prompt := st.chat_input("Sua pergunta:"):
                 st.session_state.messages.append({"role": "assistant", "content": error_message})
 
 st.markdown("---")
-st.caption("Desenvolvido por Felipe Gigante")
