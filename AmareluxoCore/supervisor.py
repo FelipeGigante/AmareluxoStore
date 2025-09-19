@@ -1,11 +1,12 @@
 from langchain_core.messages import HumanMessage, AIMessage 
 from langgraph.graph import StateGraph, END
 from langchain_openai import ChatOpenAI
+from strategies.openai_strategy import OpenAIStrategy
+from llm_client import LLMClient
 from langchain.prompts import ChatPromptTemplate
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 
 from call_functions import CallFunctions
-from models.openai_model import OpenAIModel
 from states import AgentState
 
 PROMPT_ROUTER_TEMPLATE = """Você é um supervisor especialista em rotear a pergunta de um cliente para o agente correto.
@@ -25,7 +26,8 @@ Pergunta do usuário:
 
 class SupervisorAgent:
     def __init__(self):
-        self.model = OpenAIModel(model_name="gpt-4o", temperature=0).get_client()
+        openai_strategy = OpenAIStrategy(model_name="gpt-4o", temperature=0)
+        self.model = LLMClient(strategy=openai_strategy).get_model()
         self.router_llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
         self.call_functions = CallFunctions()

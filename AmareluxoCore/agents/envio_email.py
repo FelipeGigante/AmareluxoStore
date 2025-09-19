@@ -1,6 +1,7 @@
 import requests
 from langchain_core.tools import tool
-from models.openai_model import OpenAIModel
+from strategies.openai_strategy import OpenAIStrategy
+from llm_client import LLMClient
 from utils.create_agent import AgentCreator
 from dotenv import load_dotenv
 import os
@@ -24,7 +25,8 @@ A solicitação do cliente é: {pergunta}
 
 class EnvioEmailAgent:
     def __init__(self):
-        self.model = OpenAIModel(model_name="gpt-4", temperature=0).get_client()
+        openai_strategy = OpenAIStrategy(model_name="gpt-4o", temperature=0)
+        self.model = LLMClient(strategy=openai_strategy).get_model()
         self.prompt = PROMPT_ENVIO_EMAIL
         self.create_agent = AgentCreator(self.model, self.set_tools(), self.prompt).create_agent
 
