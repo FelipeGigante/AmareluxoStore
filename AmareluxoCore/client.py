@@ -1,4 +1,4 @@
-from strategies.llm_strategy_interface import LLMStrategy
+from strategies.strategy_interface import LLMStrategy
 from langchain_core.language_models.chat_models import BaseChatModel
 
 class LLMClient:

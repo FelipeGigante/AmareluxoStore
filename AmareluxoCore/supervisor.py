@@ -2,7 +2,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
 from langchain_openai import ChatOpenAI
 from strategies.openai_strategy import OpenAIStrategy
-from llm_client import LLMClient
+from client import LLMClient
 from langchain.prompts import ChatPromptTemplate
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 

@@ -1,7 +1,7 @@
 import requests
 from langchain_core.tools import tool
 from strategies.openai_strategy import OpenAIStrategy
-from llm_client import LLMClient
+from client import LLMClient
 from utils.create_agent import AgentCreator
 from dotenv import load_dotenv
 import os

@@ -1,6 +1,7 @@
 from sentence_transformers import util
 from pydantic import BaseModel
 from services.busca_faq_service import BuscaFAQService
+from models.models import Pergunta
 
 class BuscaFAQ:
     def __init__(self):
@@ -12,7 +13,7 @@ class BuscaFAQ:
         self.faq_perguntas, self.faq_embeddings = self.busca_service.create_embeddings()
         self.faq_map_once = self.busca_service.faq_map()
 
-    def buscar_faq(self, pergunta_usuario: str) -> str:
+    def buscar_faq(self, pergunta_usuario: Pergunta) -> str:
         """
         Busca a resposta para uma pergunta no banco de dados de FAQ do e-commerce Amareluxo,
         usando busca de similaridade vetorial com embeddings.
