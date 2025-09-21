@@ -1,17 +1,18 @@
 import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
 from supervisor import SupervisorAgent
+import asyncio
 
 K_MESSAGES = 10
 
 @st.cache_resource
 def get_supervisor():
-    """Inicializa e armazena em cache a instância do supervisor."""
     return SupervisorAgent()
 
-supervisor_agent = get_supervisor().supervisor_agent
+supervisor = get_supervisor()
+supervisor_graph = supervisor.supervisor_graph
 
-st.title("Atendimento Amareluxo")
+st.title("Atendimento Amareluxo 👩‍💻")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -39,8 +40,7 @@ if prompt := st.chat_input("Sua pergunta:"):
                         langchain_messages.append(AIMessage(content=message["content"]))
 
                 initial_state = {"messages": langchain_messages}
-                
-                final_state = supervisor_agent.invoke(initial_state)
+                final_state = asyncio.run(supervisor_graph.ainvoke(initial_state))
                 
                 resposta_final = final_state["messages"][-1].content
                 
