@@ -1,101 +1,131 @@
-<h1 align="center"> Amareluxo - Sistema de Atendimento Inteligente </h1>
+<div align="center">
+  <img src="https://i.ibb.co/k4m4LrH/amareluxo.png" alt="Logotipo Amareluxo" width="250px">
+  <h1>Sistema de Atendimento Inteligente Amareluxo</h1>
+  <p>Um assistente de IA avançado para e-commerce, orquestrado com LangGraph e servido via Streamlit e FastMCP.</p>
+  
+  <p>
+    <img alt="Status" src="https://img.shields.io/badge/status-ativo-brightgreen">
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-blue">
+    <img alt="License" src="https://img.shields.io/badge/licen%C3%A7a-MIT-purple">
+  </p>
+</div>
 
-<p align="center">
-  <img src="https://i.ibb.co/ymrT2bzH/amareluxo.png" alt="amareluxo" border="0" width="30%" height="30%">
-</p>
+## 🎯 Sobre o Projeto
 
-## Sobre o Projeto
+Este projeto implementa um sistema de atendimento inteligente para a **Amareluxo**, uma loja de roupas e acessórios. O objetivo é criar uma experiência de suporte ao cliente fluida e eficiente, utilizando uma arquitetura de agentes de IA para automatizar tarefas como responder a perguntas frequentes, rastrear pedidos e escalar problemas complexos para atendimento humano.
 
-Esse projeto é um sistema de atendimento inteligente desenvolvido para a Amareluxo, uma loja de roupas e acessórios que busca inovar na experiência de atendimento ao cliente. O sistema utiliza IA para automatizar respostas a perguntas frequentes, rastreamento de pedidos e gerenciamento de comunicações.
+## ✨ Funcionalidades Principais
 
-## Sobre a Amareluxo
+- **🤖 Agente de FAQ Automatizado**: Responde a dúvidas sobre políticas da loja, pagamentos e envios.
+- **🚚 Rastreamento de Pedidos**: Permite que o cliente consulte o status de sua entrega em tempo real.
+- **📧 Abertura de Tickets de Suporte**: Encaminha problemas complexos para a equipe de suporte humano via e-mail.
+- **🧠 Conhecimento Geral**: Responde a perguntas abertas sobre a marca, produtos e moda.
+- **🧭 Roteamento Inteligente**: Um supervisor em LangGraph analisa e direciona cada pergunta para o fluxo correto.
 
-A Amareluxo é uma loja especializada em moda e acessórios, oferecendo produtos de alta qualidade e atendimento personalizado. Com o crescimento das vendas online, surgiu a necessidade de um sistema inteligente para otimizar o atendimento ao cliente e gerenciar as operações de forma mais eficiente.
+## 🏗️ Arquitetura
 
-## Tecnologias Utilizadas
+O sistema é desacoplado em dois serviços principais que se comunicam via rede Docker:
 
-- Python 3.10+
-- LangChain
-- LangGraph
-- OpenAI API
-- FastAPI
-- Docker
+1.  **Backend de Ferramentas (`ToolsMCP`)**: Um servidor `FastMCP` que expõe a lógica de negócios (acesso ao banco de dados, consulta a APIs externas) como ferramentas de IA.
+2.  **Frontend e Orquestração (`AmareluxoCore`)**: Uma interface `Streamlit` onde o usuário interage. O backend da interface usa `LangGraph` para orquestrar o `MCPAgent`, que consome as ferramentas do servidor `FastMCP`.
 
-## Instalação e Configuração
+## 🚀 Tecnologias Utilizadas
+
+| Categoria              | Tecnologia                   | Descrição                                                                    |
+| :--------------------- | :--------------------------- | :--------------------------------------------------------------------------- |
+| **Orquestração de IA** | `LangChain` / `LangGraph`    | Para criar e conectar os agentes de IA em um grafo de estados.               |
+| **Modelos de Linguagem**| `OpenAI GPT-4o` / `Google Gemini` | Modelos usados para roteamento e geração de respostas.                       |
+| **Servidor de Ferramentas** | `FastMCP`                    | Para expor as funções Python como ferramentas de IA de forma eficiente.      |
+| **Cliente de Ferramentas** | `mcp-use`                    | Para consumir as ferramentas do `FastMCP` de maneira simplificada no agente. |
+| **Interface do Usuário**| `Streamlit`                  | Para criar a interface de chat interativa.                                   |
+| **Containerização** | `Docker` / `Docker Compose`  | Para criar e gerenciar os ambientes isolados da aplicação e do servidor.   |
+
+## 🏁 Começando
+
+A maneira recomendada para executar o projeto é usando Docker.
 
 ### Pré-requisitos
 
-- Python 3.10+
-- Docker e Docker Compose
-- Conta OpenAI (para API key)
+- **Git**: Para clonar o repositório.
+- **Docker e Docker Compose**: Para construir e orquestrar os contêineres.
+- **Chaves de API**:
+  - `OPENAI_API_KEY`: Para os modelos da OpenAI.
+  - `GOOGLE_API_KEY`: Para os modelos do Google Gemini.
 
-### Configuração do Ambiente
+### 1. Configuração do Ambiente
 
-1. Clone o repositório:
+Primeiro, clone o repositório e configure as variáveis de ambiente.
+
+1.  **Clone o projeto:**
+    ```bash
+    git clone [https://github.com/FelipeGigante/AmareluxoStore.git](https://github.com/FelipeGigante/AmareluxoStore.git)
+    cd AmareluxoStore
+    ```
+
+2.  **Crie o arquivo `.env`**: Crie um arquivo chamado `.env` na raiz do projeto, copiando o exemplo abaixo. Este arquivo será usado por ambos os contêineres.
+
+    ```env
+    # Chaves para os modelos de linguagem
+    OPENAI_API_KEY="sk-..."
+    GOOGLE_API_KEY="..."
+
+    # URL que o cliente (Streamlit/LangGraph) usará para encontrar o servidor de ferramentas
+    # IMPORTANTE: Dentro do Docker, um contêiner se refere a outro pelo nome do serviço.
+    MCP_SERVER_URL="http://api:9000/mcp"
+    ```
+
+### 2. Executando com Docker
+
+Com o Docker e o arquivo `.env` prontos, você pode iniciar a aplicação com dois comandos.
+
+1.  **Construa as imagens Docker:**
+    ```bash
+    docker-compose build
+    ```
+
+2.  **Inicie os serviços em modo detached (-d):**
+    ```bash
+    docker-compose up -d
+    ```
+
+A aplicação estará disponível em:
+- **🖥️ Interface de Chat**: `http://localhost:8501`
+- **⚙️ API de Ferramentas**: `http://localhost:9000` (você pode acessar a documentação gerada pelo FastMCP aqui)
+
+Para parar os serviços, execute:
 ```bash
-git clone https://github.com/FelipeGigante/AmareluxoStore.git
-cd AmareluxoStore
+docker-compose down
 ```
 
-2. Crie o arquivo `.env` na raiz do projeto:
-```env
-OPENAI_API_KEY=sua-chave-api
-```
-
-### Usando Docker
-
-1. Construa as imagens:
+## 📁 Estrutura do Projeto
 ```bash
-docker-compose build
+.
+├── AmareluxoCore/       # Contém a aplicação Streamlit, o Supervisor e o Agente.
+│   ├── main.py
+│   ├── supervisor.py
+│   ├── amareluxo_agent.py
+│   └── ...
+├── ToolsMCP/            # Contém o servidor FastMCP e a definição das ferramentas.
+│   ├── server.py
+│   ├── tools/
+│   └── ...
+├── .env                 # (Você precisa criar) Armazena as chaves de API.
+├── docker-compose.yml   # Orquestra os contêineres.
+└── README.md
 ```
 
-2. Inicie os containers:
-```bash
-docker-compose up -d
-```
+## 🤝 Contribuindo
 
-### Instalação Manual
+1.  Faça um Fork do projeto.
+2.  Crie sua Feature Branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`).
+4.  Push para a Branch (`git push origin feature/AmazingFeature`).
+5.  Abra um Pull Request.
 
-1. Crie um ambiente virtual:
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-.\venv\Scripts\activate   # Windows
-```
-
-2. Instale as dependências:
-```bash
-pip install -r requirements.txt
-```
-
-## Funcionalidades Principais
-
-- **FAQ Automatizado**: Responde perguntas frequentes sobre produtos, envios e políticas
-- **Rastreamento de Pedidos**: Integração com APIs de rastreio
-- **Gestão de E-mails**: Automação de respostas e encaminhamento para atendimento humano
-- **Sistema de Roteamento Inteligente**: Direciona queries para os agentes especializados
-
-## Uso
-
-```python
-from AmareluxoCore.supervisor import SupervisorAgent
-
-supervisor = SupervisorAgent()
-response = supervisor.handle_message("Qual o status do meu pedido #123?")
-```
-
-## Contribuindo
-
-1. Fork o projeto
-2. Crie sua Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a Branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## Licença
+## 📜 Licença
 
 Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
 
-## Contato
+## 👨‍💻 Contato
 
-Felipe Gigante - [@felipegigante](https://www.linkedin.com/in/felipegigante/)
+**Felipe Gigante** - [LinkedIn](https://www.linkedin.com/in/felipegigante/) - [GitHub](https://github.com/FelipeGigante)

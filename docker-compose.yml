@@ -5,7 +5,7 @@ services:
       context: ./ToolsMCP
       dockerfile: Dockerfile
     container_name: amareluxo_api
-    command: uvicorn server:app --host 0.0.0.0 --port 9000
+    command: fastmcp run server.py:mcp --transport http --port 9000
     volumes:
       - ./ToolsMCP:/app
     ports:
