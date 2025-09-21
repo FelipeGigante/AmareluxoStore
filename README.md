@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://i.ibb.co/k4m4LrH/amareluxo.png" alt="Logotipo Amareluxo" width="250px">
+  <img src="https://i.ibb.co/ymrT2bzH/amareluxo.png" alt="amareluxo" border="0" width="30%" height="30%">
   <h1>Sistema de Atendimento Inteligente Amareluxo</h1>
   <p>Um assistente de IA avançado para e-commerce, orquestrado com LangGraph e servido via Streamlit e FastMCP.</p>
   
