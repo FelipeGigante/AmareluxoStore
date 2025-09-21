@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 9000
 
-CMD ["uvicorn", "server:app", "--port", "9000"]
+CMD ["fastmcp", "run", "server.py:mcp", "--transport", "http", "--port", "9000"]
